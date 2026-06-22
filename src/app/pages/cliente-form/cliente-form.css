@@ -1,0 +1,52 @@
+.formulario {
+ max-width: 680px;
+ padding: 20px;
+ border: 1px solid #ddd;
+ border-radius: 8px;
+ background: #fafafa;
+}
+.campo {
+ margin-bottom: 12px;
+ display: flex;
+ flex-direction: column;
+}
+label {
+ font-weight: bold;
+ margin-bottom: 4px;
+}
+input, select {
+ padding: 8px;
+ border: 1px solid #bbb;
+ border-radius: 4px;
+}
+small {
+ color: #b00020;
+ margin-top: 4px;
+}
+.botones {
+ margin-top: 16px;
+ display: flex;
+ gap: 10px;
+}
+button {
+ padding: 8px 14px;
+ border: none;
+ border-radius: 4px;
+ cursor: pointer;
+}
+button:disabled {
+ opacity: 0.5;
+ cursor: not-allowed;
+}
+.mensaje {
+ font-weight: bold;
+}
+table {
+ margin-top: 16px;
+ border-collapse: collapse;
+ width: 100%;
+}
+th, td {
+ border: 1px solid #ddd;
+ padding: 8px;
+}

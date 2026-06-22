@@ -1,0 +1,165 @@
+@import 'tailwindcss';
+
+/* ===== Tema POS ===== */
+@theme {
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-ink: #0f172a;
+  --color-ink-soft: #1e293b;
+  --font-sans: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: #eef2f7;
+  color: #0f172a;
+}
+
+/* ===== Clases de componentes (reutilizadas por todas las páginas) ===== */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap;
+  }
+  .btn-primary {
+    @apply bg-brand-600 text-white hover:bg-brand-700 shadow-sm shadow-brand-600/20;
+  }
+  .btn-success {
+    @apply bg-emerald-600 text-white hover:bg-emerald-700;
+  }
+  .btn-danger {
+    @apply bg-rose-600 text-white hover:bg-rose-700;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-slate-600 border border-slate-200 hover:bg-slate-50;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs rounded-lg;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-slate-100 p-6;
+  }
+
+  .campo {
+    @apply flex flex-col gap-1.5 mb-4;
+  }
+  .campo > label {
+    @apply text-sm font-medium text-slate-700;
+  }
+  input,
+  select,
+  textarea {
+    @apply w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100;
+  }
+  .campo small {
+    @apply text-rose-600 text-xs;
+  }
+
+  .tabla {
+    @apply w-full bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 border-separate border-spacing-0;
+  }
+  .tabla thead {
+    @apply bg-slate-50;
+  }
+  .tabla th {
+    @apply text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-400 border-b border-slate-100;
+  }
+  .tabla td {
+    @apply px-4 py-3.5 border-b border-slate-50 text-sm text-slate-700;
+  }
+  .tabla tbody tr:hover {
+    @apply bg-slate-50/60;
+  }
+  .tabla tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold;
+  }
+  .badge-success {
+    @apply bg-emerald-50 text-emerald-700;
+  }
+  .badge-danger {
+    @apply bg-rose-50 text-rose-700;
+  }
+  .badge-warning {
+    @apply bg-amber-50 text-amber-700;
+  }
+  .badge-primary {
+    @apply bg-brand-50 text-brand-700;
+  }
+
+  .alert {
+    @apply px-4 py-3 rounded-xl text-sm mb-4;
+  }
+  .alert-success {
+    @apply bg-emerald-50 text-emerald-700;
+  }
+  .alert-danger {
+    @apply bg-rose-50 text-rose-700;
+  }
+
+  .page-header {
+    @apply flex justify-between items-center mb-6 flex-wrap gap-4;
+  }
+  .page-header h1 {
+    @apply text-2xl font-bold text-slate-800;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    @apply fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4;
+  }
+  .modal {
+    @apply bg-white rounded-2xl w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto;
+  }
+  .modal-header {
+    @apply flex justify-between items-center px-6 py-4 border-b border-slate-100;
+  }
+  .modal-header h3 {
+    @apply font-semibold text-lg;
+  }
+  .modal-close {
+    @apply bg-transparent border-0 text-2xl cursor-pointer text-slate-400 leading-none hover:text-slate-600;
+  }
+  .modal-body {
+    @apply p-6;
+  }
+  .modal-footer {
+    @apply flex justify-end gap-2 px-6 py-4 border-t border-slate-100;
+  }
+
+  .total-final {
+    @apply flex justify-between items-center mt-4 pt-4 border-t-2 border-slate-100 font-bold text-lg;
+  }
+  .total-final span:last-child {
+    @apply text-emerald-600;
+  }
+}
+
+/* Utilidades varias usadas en plantillas existentes */
+.muted {
+  @apply text-slate-400;
+}
+.text-right {
+  text-align: right;
+}
+.flex {
+  display: flex;
+}
+.gap {
+  gap: 0.75rem;
+}

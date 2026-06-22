@@ -1,0 +1,69 @@
+<div class="page-header">
+  <h1>Categorías</h1>
+  <button class="btn btn-primary" (click)="abrirNueva()">
+    <lucide-icon name="plus" [size]="18"></lucide-icon>
+    Nueva categoría
+  </button>
+</div>
+
+@if (error() && !modalAbierto()) {
+  <div class="alert alert-danger">{{ error() }}</div>
+}
+
+<table class="tabla">
+  <thead>
+    <tr><th>ID</th><th>Nombre</th><th>Descripción</th><th class="text-right">Acciones</th></tr>
+  </thead>
+  <tbody>
+    @for (c of categorias(); track c.id) {
+      <tr>
+        <td>{{ c.id }}</td>
+        <td><strong>{{ c.nombre }}</strong></td>
+        <td class="muted">{{ c.descripcion || '—' }}</td>
+        <td class="text-right">
+          <button class="btn btn-ghost btn-sm" (click)="abrirEditar(c)">
+            <lucide-icon name="pencil" [size]="14"></lucide-icon>
+          </button>
+          <button class="btn btn-danger btn-sm" (click)="eliminar(c)">
+            <lucide-icon name="trash-2" [size]="14"></lucide-icon>
+          </button>
+        </td>
+      </tr>
+    } @empty {
+      <tr><td colspan="4" class="muted" style="text-align:center">No hay categorías registradas.</td></tr>
+    }
+  </tbody>
+</table>
+
+@if (modalAbierto()) {
+  <div class="modal-overlay" (click)="cerrar()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ editandoId() ? 'Editar categoría' : 'Nueva categoría' }}</h3>
+        <button class="modal-close" (click)="cerrar()">&times;</button>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="guardar()">
+        <div class="modal-body">
+          @if (error()) { <div class="alert alert-danger">{{ error() }}</div> }
+          <div class="campo">
+            <label>Nombre</label>
+            <input type="text" formControlName="nombre" placeholder="Ej: Bebidas" />
+            @if (form.get('nombre')?.invalid && form.get('nombre')?.touched) {
+              <small>El nombre es obligatorio.</small>
+            }
+          </div>
+          <div class="campo">
+            <label>Descripción</label>
+            <textarea formControlName="descripcion" rows="2" placeholder="Opcional"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" (click)="cerrar()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="cargando()">
+            {{ cargando() ? 'Guardando...' : 'Guardar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

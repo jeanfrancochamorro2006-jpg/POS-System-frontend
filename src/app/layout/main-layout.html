@@ -1,0 +1,74 @@
+<div class="min-h-screen flex bg-[#eef2f7] p-3 gap-3">
+  <!-- Sidebar -->
+  <aside class="hidden md:flex flex-col w-60 bg-slate-900 rounded-3xl py-6 px-4 shrink-0 sticky top-3 h-[calc(100vh-1.5rem)]">
+    <div class="flex items-center gap-2.5 px-2 mb-8">
+      <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center">
+        <lucide-icon name="store" class="text-white" [size]="20"></lucide-icon>
+      </div>
+      <span class="text-white font-bold text-lg">POS System</span>
+    </div>
+
+    <nav class="flex flex-col gap-1 flex-1">
+      @for (item of menuVisible; track item.ruta) {
+        <a [routerLink]="item.ruta" routerLinkActive="bg-brand-600! text-white! shadow-lg shadow-brand-600/30"
+           class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition-colors">
+          <lucide-icon [name]="item.icono" [size]="19"></lucide-icon>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <button (click)="salir()"
+      class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm text-slate-400 hover:bg-rose-500/10 hover:text-rose-400 transition-colors">
+      <lucide-icon name="log-out" [size]="19"></lucide-icon>
+      <span>Cerrar sesión</span>
+    </button>
+  </aside>
+
+  <!-- Contenido -->
+  <div class="flex-1 flex flex-col min-w-0">
+    <!-- Topbar -->
+    <header class="flex items-center justify-between gap-4 mb-3">
+      <div class="flex items-center gap-3 flex-1">
+        <button class="md:hidden p-2 rounded-xl bg-white shadow-sm" (click)="menuMovil.set(!menuMovil())">
+          <lucide-icon name="menu" [size]="20"></lucide-icon>
+        </button>
+        <div class="relative max-w-md w-full hidden sm:block">
+          <lucide-icon name="search" [size]="18" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></lucide-icon>
+          <input type="text" placeholder="Buscar..." class="pl-10 bg-white border-transparent shadow-sm rounded-2xl" />
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 bg-white rounded-2xl shadow-sm pl-2 pr-3 py-1.5">
+        <div class="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center text-sm font-semibold">
+          {{ iniciales }}
+        </div>
+        <div class="hidden sm:flex flex-col leading-tight">
+          <span class="text-sm font-semibold text-slate-700">{{ nombre() }}</span>
+          <span class="text-xs text-slate-400">{{ rol() }}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Menú móvil -->
+    @if (menuMovil()) {
+      <div class="md:hidden bg-slate-900 rounded-2xl p-3 mb-3 flex flex-col gap-1">
+        @for (item of menuVisible; track item.ruta) {
+          <a [routerLink]="item.ruta" (click)="menuMovil.set(false)"
+             routerLinkActive="bg-brand-600! text-white!"
+             class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm text-slate-300 hover:bg-slate-800">
+            <lucide-icon [name]="item.icono" [size]="19"></lucide-icon>
+            <span>{{ item.label }}</span>
+          </a>
+        }
+        <button (click)="salir()" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm text-rose-400">
+          <lucide-icon name="log-out" [size]="19"></lucide-icon> Cerrar sesión
+        </button>
+      </div>
+    }
+
+    <main class="flex-1 bg-white rounded-3xl shadow-sm p-6 md:p-8 overflow-x-auto">
+      <router-outlet />
+    </main>
+  </div>
+</div>

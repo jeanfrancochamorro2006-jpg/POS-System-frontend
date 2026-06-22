@@ -1,0 +1,103 @@
+.pos {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* Catálogo */
+.catalogo input[type='text'] {
+  margin-bottom: 1rem;
+}
+.grid-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+.producto-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.08s ease, box-shadow 0.15s ease, border 0.15s ease;
+  font-family: inherit;
+}
+.producto-card:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+}
+.producto-card:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.prod-nombre { font-weight: 600; font-size: 0.9rem; }
+.prod-codigo { font-size: 0.75rem; }
+.prod-precio { font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); }
+
+/* Carrito */
+.carrito {
+  position: sticky;
+  top: 76px;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 100px);
+}
+.carrito h3 { margin-bottom: 0.75rem; }
+.items {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 120px;
+  margin-bottom: 1rem;
+}
+.carrito-vacio {
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 0.85rem;
+}
+.item {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.item-info { display: flex; flex-direction: column; }
+.item-info strong { font-size: 0.85rem; }
+.item-info span { font-size: 0.72rem; }
+.item-cant {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.item-cant span { min-width: 1.2rem; text-align: center; font-weight: 600; }
+.item-sub { font-weight: 600; font-size: 0.85rem; min-width: 60px; text-align: right; }
+.quitar {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.cobro { border-top: 2px solid var(--border); padding-top: 1rem; }
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.75rem 0;
+  font-weight: 700;
+}
+.total-monto { font-size: 1.5rem; color: var(--success); }
+
+@media (max-width: 900px) {
+  .pos { grid-template-columns: 1fr; }
+  .carrito { position: static; max-height: none; }
+}

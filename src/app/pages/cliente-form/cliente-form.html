@@ -1,0 +1,71 @@
+<h2>Registro de clientes</h2>
+<form [formGroup]="clienteForm" (ngSubmit)="guardar()" class="formulario">
+ <div class="campo">
+ <label>Nombres</label>
+ <input type="text" formControlName="nombres" placeholder="Ingrese nombres">
+ <small *ngIf="campoInvalido('nombres')">Ingrese mínimo 3 caracteres.</small>
+ </div>
+ <div class="campo">
+ <label>Apellidos</label>
+ <input type="text" formControlName="apellidos" placeholder="Ingrese apellidos">
+ <small *ngIf="campoInvalido('apellidos')">Los apellidos son obligatorios.</small>
+ </div>
+ <div class="campo">
+ <label>Correo</label>
+ <input type="email" formControlName="correo" placeholder="correo@dominio.com">
+ <small *ngIf="campoInvalido('correo')">Ingrese un correo válido.</small>
+ </div>
+ <div class="campo">
+ <label>Edad</label>
+ <input type="number" formControlName="edad" placeholder="Edad">
+ <small *ngIf="campoInvalido('edad')">La edad debe estar entre 18 y 80.</small>
+ </div>
+ <div class="campo">
+ <label>Teléfono</label>
+ <input type="tel" formControlName="telefono" placeholder="987654321">
+ <small *ngIf="campoInvalido('telefono')">El teléfono debe tener 9 dígitos.</small>
+ </div>
+ <div class="campo">
+ <label>Tipo de documento</label>
+ <select formControlName="tipoDocumento">
+ <option value="">Seleccione</option>
+ <option value="DNI">DNI</option>
+ <option value="CE">Carné de extranjería</option>
+ <option value="PASAPORTE">Pasaporte</option>
+ </select>
+ <small *ngIf="campoInvalido('tipoDocumento')">Seleccione un tipo.</small>
+ </div>
+ <div class="campo">
+ <label>Número de documento</label>
+ <input type="text" formControlName="numeroDocumento" placeholder="Número">
+ <small *ngIf="campoInvalido('numeroDocumento')">El número es obligatorio.</small>
+ </div>
+ <label class="check">
+    <input type="checkbox" formControlName="aceptaTerminos">
+ Acepto los términos y condiciones
+ </label>
+ <small *ngIf="campoInvalido('aceptaTerminos')">Debe aceptar los términos.</small>
+ <div class="botones">
+ <button type="submit" [disabled]="clienteForm.invalid">Guardar</button>
+ <button type="button" (click)="limpiar()">Limpiar</button>
+ <button type="button" (click)="listar()">Listar</button>
+ </div>
+</form>
+<p class="mensaje">{{ mensaje }}</p>
+<h3>Clientes registrados</h3>
+<table *ngIf="clientes.length > 0">
+ <thead>
+ <tr>
+ <th>ID</th><th>Nombres</th><th>Correo</th><th>Edad</th><th>Documento</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr *ngFor="let c of clientes">
+ <td>{{ c.id }}</td>
+ <td>{{ c.nombres }} {{ c.apellidos }}</td>
+ <td>{{ c.correo }}</td>
+ <td>{{ c.edad }}</td>
+ <td>{{ c.tipoDocumento }} - {{ c.numeroDocumento }}</td>
+ </tr>
+ </tbody>
+</table>

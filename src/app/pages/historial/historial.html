@@ -1,0 +1,66 @@
+<div class="page-header">
+  <h1>Historial de ventas</h1>
+</div>
+
+@if (error()) { <div class="alert alert-danger">{{ error() }}</div> }
+
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>#</th><th>Fecha</th><th>Cliente</th><th>Vendedor</th>
+      <th>Pago</th><th class="text-right">Total</th><th class="text-right"></th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (v of ventas(); track v.id) {
+      <tr>
+        <td><strong>#{{ v.id }}</strong></td>
+        <td class="muted">{{ v.fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ v.clienteNombre }}</td>
+        <td class="muted">{{ v.usuarioNombre }}</td>
+        <td><span class="badge badge-primary">{{ v.metodoPago }}</span></td>
+        <td class="text-right"><strong>S/ {{ v.total.toFixed(2) }}</strong></td>
+        <td class="text-right">
+          <button class="btn btn-ghost btn-sm" (click)="ver(v)">Ver detalle</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr><td colspan="7" class="muted" style="text-align:center">Aún no hay ventas registradas.</td></tr>
+    }
+  </tbody>
+</table>
+
+@if (detalle(); as v) {
+  <div class="modal-overlay" (click)="cerrar()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Venta #{{ v.id }}</h3>
+        <button class="modal-close" (click)="cerrar()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="muted" style="margin-top:0">
+          {{ v.fecha | date: 'dd/MM/yyyy HH:mm' }} · {{ v.clienteNombre }} · {{ v.metodoPago }}
+        </p>
+        <table class="tabla" style="box-shadow:none">
+          <thead>
+            <tr><th>Producto</th><th>Cant.</th><th class="text-right">P. Unit</th><th class="text-right">Subtotal</th></tr>
+          </thead>
+          <tbody>
+            @for (d of v.detalles; track d.productoId) {
+              <tr>
+                <td>{{ d.productoNombre }}</td>
+                <td>{{ d.cantidad }}</td>
+                <td class="text-right">S/ {{ d.precioUnitario.toFixed(2) }}</td>
+                <td class="text-right">S/ {{ (d.subtotal || 0).toFixed(2) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        <div class="total-final">
+          <span>TOTAL</span>
+          <span>S/ {{ v.total.toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+}

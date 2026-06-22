@@ -1,0 +1,98 @@
+<div class="pos">
+  <!-- Catálogo de productos -->
+  <section class="catalogo">
+    <div class="page-header">
+      <h1>Punto de venta</h1>
+    </div>
+
+    @if (mensaje()) { <div class="alert alert-success">{{ mensaje() }}</div> }
+    @if (error()) { <div class="alert alert-danger">{{ error() }}</div> }
+
+    <div class="relative mb-4">
+      <lucide-icon name="search" [size]="18" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></lucide-icon>
+      <input type="text" placeholder="Buscar producto por nombre o código..." class="pl-10"
+             [ngModel]="filtro()" (ngModelChange)="filtro.set($event)" />
+    </div>
+
+    <div class="grid-productos">
+      @for (p of productosFiltrados; track p.id) {
+        <button class="producto-card" [disabled]="p.stock <= 0" (click)="agregar(p)">
+          <span class="prod-nombre">{{ p.nombre }}</span>
+          <span class="prod-codigo muted">{{ p.codigo }}</span>
+          <span class="prod-precio">S/ {{ p.precio.toFixed(2) }}</span>
+          <span class="badge" [class.badge-success]="p.stock > 10"
+                [class.badge-warning]="p.stock <= 10 && p.stock > 0"
+                [class.badge-danger]="p.stock === 0">
+            {{ p.stock > 0 ? 'Stock: ' + p.stock : 'Agotado' }}
+          </span>
+        </button>
+      } @empty {
+        <p class="muted">No hay productos disponibles.</p>
+      }
+    </div>
+  </section>
+
+  <!-- Carrito / Cobro -->
+  <aside class="carrito card">
+    <h3 class="flex items-center gap-2">
+      <lucide-icon name="shopping-cart" [size]="20" class="text-brand-600"></lucide-icon>
+      Carrito ({{ cantidadItems() }})
+    </h3>
+
+    <div class="items">
+      @for (item of carrito(); track item.producto.id) {
+        <div class="item">
+          <div class="item-info">
+            <strong>{{ item.producto.nombre }}</strong>
+            <span class="muted">S/ {{ item.producto.precio.toFixed(2) }} c/u</span>
+          </div>
+          <div class="item-cant">
+            <button class="btn btn-ghost btn-sm" (click)="cambiarCantidad(item, -1)">−</button>
+            <span>{{ item.cantidad }}</span>
+            <button class="btn btn-ghost btn-sm" (click)="cambiarCantidad(item, 1)">+</button>
+          </div>
+          <div class="item-sub">S/ {{ (item.producto.precio * item.cantidad).toFixed(2) }}</div>
+          <button class="quitar" (click)="quitar(item)" title="Quitar">×</button>
+        </div>
+      } @empty {
+        <p class="muted carrito-vacio">El carrito está vacío.<br />Toca un producto para agregarlo.</p>
+      }
+    </div>
+
+    <div class="cobro">
+      <div class="campo">
+        <label>Cliente (opcional)</label>
+        <select [ngModel]="clienteId()" (ngModelChange)="clienteId.set($event)">
+          <option [ngValue]="null">Público general</option>
+          @for (c of clientes(); track c.id) {
+            <option [ngValue]="c.id">{{ c.nombres }} {{ c.apellidos }}</option>
+          }
+        </select>
+      </div>
+      <div class="campo">
+        <label>Método de pago</label>
+        <select [ngModel]="metodoPago()" (ngModelChange)="metodoPago.set($event)">
+          <option value="EFECTIVO">Efectivo</option>
+          <option value="TARJETA">Tarjeta</option>
+          <option value="YAPE">Yape / Plin</option>
+          <option value="TRANSFERENCIA">Transferencia</option>
+        </select>
+      </div>
+
+      <div class="total-row">
+        <span>TOTAL</span>
+        <span class="total-monto">S/ {{ total().toFixed(2) }}</span>
+      </div>
+
+      <button class="btn btn-success" style="width:100%" (click)="cobrar()"
+              [disabled]="procesando() || carrito().length === 0">
+        <lucide-icon name="banknote" [size]="18"></lucide-icon>
+        {{ procesando() ? 'Procesando...' : 'Cobrar' }}
+      </button>
+      <button class="btn btn-ghost" style="width:100%; margin-top:0.5rem" (click)="limpiar()"
+              [disabled]="carrito().length === 0">
+        Limpiar
+      </button>
+    </div>
+  </aside>
+</div>
